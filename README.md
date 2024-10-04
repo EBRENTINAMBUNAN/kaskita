@@ -1,4 +1,4 @@
-### KASKITA V 1.0
+# KASKITA V 1.0
 
-# pembuatan crud di halaman admin/member
-# HANYA FRONT END SAJA
+### pembuatan crud di halaman admin/member
+### HANYA FRONT END SAJA
