@@ -27,13 +27,20 @@ class MemberController extends Controller
         return redirect()->route('readMember');
     }
 
-    // read member
-    public function readMember()
+    public function readMember(Request $request)
     {
-        $users = Member::orderBy('username', 'asc')->get();
+        $search = $request->input('search');
+
+        $users = Member::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('username', 'like', '%' . $search . '%');
+            })
+            ->orderBy('username', 'asc')
+            ->paginate(10);
 
         return view('admin.member', compact('users'));
     }
+
 
     // get member
     public function getMember($id)
