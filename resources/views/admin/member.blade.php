@@ -19,27 +19,208 @@
     </div>
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
-        <table class="min-w-full bg-white">
-            <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <table class="min-w-full table-auto border-collapse">
+            <thead class="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
                 <tr>
-                    <th class="py-3 px-6 text-left">No</th>
-                    <th class="py-3 px-6 text-left">Nama</th>
-                    <th class="py-3 px-6 text-left">NIM</th>
-                    <th class="py-3 px-6 text-left">Email</th>
-                    <th class="py-3 px-6 text-left">Whatsapp</th>
+                    <th class="py-2 px-3">No</th>
+                    <th class="py-2 px-3">Nama</th>
+                    <th class="py-2 px-3">1</th>
+                    <th class="py-2 px-3">2</th>
+                    <th class="py-2 px-3">3</th>
+                    <th class="py-2 px-3">4</th>
+                    <th class="py-2 px-3">5</th>
+                    <th class="py-2 px-3">6</th>
+                    <th class="py-2 px-3">7</th>
+                    <th class="py-2 px-3">8</th>
+                    <th class="py-2 px-3">9</th>
+                    <th class="py-2 px-3">10</th>
+                    <th class="py-2 px-3">11</th>
+                    <th class="py-2 px-3">12</th>
+                    <th class="py-2 px-3">13</th>
+                    <th class="py-2 px-3">14</th>
+                    <th class="py-2 px-3">15</th>
+                    <th class="py-2 px-3">16</th>
                     <th class="py-3 px-6 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
                 @foreach ($users as $index => $user)
-                    <tr class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left">
+                    <tr class="border-b hover:bg-gray-100 transition">
+                        <td class="py-2 px-3">
                             {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}
                         </td>
-                        <td class="py-3 px-6 text-left">{{ $user->username }}</td>
-                        <td class="py-3 px-6 text-left">{{ $user->nim }}</td>
-                        <td class="py-3 px-6 text-left">{{ $user->email }}</td>
-                        <td class="py-3 px-6 text-left">{{ $user->wa }}</td>
+                        @php
+                            $nameParts = explode(' ', $user->username);
+                            if (strtoupper($nameParts[0]) == 'MUHAMMAD' || strtoupper($nameParts[0]) == 'MUH') {
+                                $formattedName = 'M ' . (isset($nameParts[1]) ? $nameParts[1] : '');
+                            } else {
+                                $formattedName = $nameParts[0];
+                            }
+                        @endphp
+
+                        <td class="py-2 px-3 uppercase">{{ $formattedName }}</td>
+
+                        <td class="py-2 px-3">
+                            @if ($user->p1)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p2)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p3)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p4)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p5)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p6)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p7)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p8)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p9)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p10)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p11)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p12)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p13)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p14)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p15)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+                        <td class="py-2 px-3">
+                            @if ($user->p16)
+                                <span
+                                    class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-check text-green-600"></i></span>
+                            @else
+                                <span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-medium"><i
+                                        class="fas fa-times text-red-600"></i></span>
+                            @endif
+                        </td>
+
                         <td class="py-3 px-6 text-center">
                             <div class="flex item-center justify-center space-x-2">
                                 <button onclick="openEditModal('{{ $user->id }}')"
@@ -101,8 +282,8 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" name="username" class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        required />
+                    <input type="text" name="username"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md uppercase" required />
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">NIM</label>
@@ -139,15 +320,18 @@
                 @method('PUT')
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" name="username" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    <input type="text" name="username"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md uppercase" />
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">NIM</label>
-                    <input type="text" name="nim" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    <input type="text" name="nim"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md" />
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    <input type="email" name="email"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md" />
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Whatsapp</label>

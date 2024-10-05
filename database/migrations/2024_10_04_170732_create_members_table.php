@@ -17,6 +17,22 @@ return new class extends Migration
             $table->string('nim');
             $table->string('email');
             $table->string('wa');
+            $table->boolean('p1')->default(false);
+            $table->boolean('p2')->default(false);
+            $table->boolean('p3')->default(false);
+            $table->boolean('p4')->default(false);
+            $table->boolean('p5')->default(false);
+            $table->boolean('p6')->default(false);
+            $table->boolean('p7')->default(false);
+            $table->boolean('p8')->default(false);
+            $table->boolean('p9')->default(false);
+            $table->boolean('p10')->default(false);
+            $table->boolean('p11')->default(false);
+            $table->boolean('p12')->default(false);
+            $table->boolean('p13')->default(false);
+            $table->boolean('p14')->default(false);
+            $table->boolean('p15')->default(false);
+            $table->boolean('p16')->default(false);
             $table->timestamps();
         });
     }
