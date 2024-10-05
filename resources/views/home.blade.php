@@ -82,6 +82,38 @@
     <div class="h-1 w-24 bg-blue-600 rounded-full"></div>
 </div>
 
+<!-- Search Element -->
+<section class="bg-white py-12">
+    <div class="container mx-auto px-6 text-center">
+        <!-- Title -->
+        <h1 class="text-3xl md:text-5xl font-bold text-gray-800 leading-tight">
+            Cek dan Bayar Tagihan
+        </h1>
+        <!-- Description -->
+        <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+            Masukkan nomor NIM kamu untuk melihat informasi pembayaran. Sistem kami memudahkan
+            kamu untuk memantau tagihan yang belum dibayar dan melakukan pembayaran dengan cepat dan aman.
+        </p>
+        <!-- Search Bar -->
+        <div class="flex justify-center items-center mt-8">
+            <div class="relative w-full max-w-xl">
+                <form id="searchForm">
+                    @csrf
+                    <input type="text" id="searchInput" placeholder="Masukkan nomor induk mahasiswa..."
+                        value="{{ request('search') }}"
+                        class="w-full bg-gray-100 border border-transparent focus:border-transparent shadow-lg focus:shadow-xl text-gray-700 rounded-full py-4 px-6 pr-14 focus:outline-none focus:ring-4 focus:ring-blue-600 transition-all duration-500">
+
+                    <button type="submit"
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-800 p-3 rounded-full shadow-lg transition-all duration-300">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Search Element -->
+
 <!-- Cards Section -->
 <section class="bg-gray-100 py-12">
     <div class="container mx-auto px-6">
@@ -129,8 +161,118 @@
         </div>
     </div>
 </section>
-
-
 {{-- end content --}}
+
+<!-- Modal for displaying user data -->
+<div id="userModal"
+    class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50 transition-opacity duration-300 ease-in-out">
+    <div
+        class="relative bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full transform transition-transform duration-300 ease-in-out">
+
+        <!-- Close Button -->
+        <button id="closeModal"
+            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none text-2xl font-bold z-50">
+            &times;
+        </button>
+
+        <!-- Modal Header: Payment Info -->
+        <div class="relative bg-gradient-to-r from-blue-500 to-blue-700 text-white text-center py-6 rounded-t-3xl">
+            <h2 class="text-2xl font-bold">Tagihan Pembayaran</h2>
+            <p id="modalUsername" class="mt-2 text-lg font-medium uppercase"></p>
+        </div>
+
+        <!-- Modal Content -->
+        <div id="modalContent" class="bg-white py-6 px-8 rounded-b-3xl text-center">
+            <!-- Default state: Payment details -->
+            <p id="modalMessage" class="text-gray-600 mb-6"></p>
+
+            <!-- Pay Button -->
+            <div id="payButtonContainer" class="hidden justify-center">
+                <button id="payBillBtn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    Bayar Tagihan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide the pay button by default inside the modal
+        const payButtonContainer = document.getElementById('payButtonContainer');
+
+        // Function to open the modal and display the username or error message
+        function openModal(username, dataExists) {
+            const modalUsername = document.getElementById('modalUsername');
+            const modalMessage = document.getElementById('modalMessage');
+            const payButtonContainer = document.getElementById('payButtonContainer');
+            const modal = document.getElementById('userModal');
+
+            if (dataExists) {
+                // Populate the modal with user data if found
+                modalUsername.textContent = username;
+                modalMessage.textContent = "Silakan lakukan pembayaran tagihan Anda untuk melanjutkan.";
+                payButtonContainer.style.display = 'flex'; // Show the pay button
+            } else {
+                // Handle the case when data is not found
+                modalUsername.textContent = "Data Tidak Ditemukan";
+                modalMessage.textContent = "Maaf, data tagihan tidak ditemukan untuk user ini.";
+                payButtonContainer.style.display = 'none'; // Hide the pay button
+            }
+
+            // Add flex classes to center the modal and remove hidden
+            modal.classList.add('flex', 'justify-center', 'items-center');
+            modal.classList.remove('hidden');
+        }
+
+        // Close modal event
+        document.getElementById('closeModal').addEventListener('click', function() {
+            const modal = document.getElementById('userModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex', 'justify-center',
+                'items-center'); // Remove the centering classes when hiding
+        });
+
+        // Handle Pay Bill Button click
+        document.querySelector('#payBillBtn').addEventListener('click', function() {
+            const username = document.querySelector('#modalUsername').textContent;
+
+            // Redirect or handle payment logic using the username
+            window.location.href = `/payment/${username}`;
+        });
+
+        // Handle form submission with AJAX
+        document.querySelector('#searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const searchValue = document.querySelector('#searchInput').value;
+            const token = document.querySelector('input[name="_token"]').value;
+
+            // Perform AJAX request using Fetch API
+            fetch('{{ route('search.user') }}?search=' + searchValue, {
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    }
+                })
+                .then(response => response.json())
+                .then(user => {
+                    if (user.error) {
+                        // Pass false to openModal to indicate no data found
+                        openModal(null, false);
+                    } else {
+                        // Pass username and true to openModal when data exists
+                        openModal(user.username, true);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // In case of an error (e.g. network issue), also show 'data not found'
+                    openModal(null, false);
+                });
+        });
+    });
+</script>
+
 
 <x-footer></x-footer>

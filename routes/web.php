@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/search-user', [HomeController::class, 'searchUser'])->name('search.user');
+Route::get('/payment/{username}', [HomeController::class, 'bayarTagihan'])->name('payment.show');
+
 
 Route::get('/saving', function () {
     return view('saving');
