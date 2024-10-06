@@ -11,6 +11,6 @@ class Payment extends Model
     protected $table = 'payment_historys';
 
     protected $fillable = [
-        'username', 'nim', 'pekan', 'amount' ,'image'
+        'username', 'nim', 'pekan', 'amount' ,'image' ,'created_at'
     ];
 }

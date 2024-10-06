@@ -16,7 +16,13 @@ class HomeController extends Controller
     // search user
     public function searchUser(Request $request)
     {
-        $search = $request->input('search');
+        $validatedData = $request->validate([
+            'search' => 'required|string|max:50',
+        ]);
+
+        $search = $validatedData['search'];
+        
+
         $user = Member::where('nim', 'like', '%' . $search . '%')->first();
 
         if ($user) {
@@ -67,11 +73,12 @@ class HomeController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->file('image')->getClientOriginalExtension();  
-            $request->file('image')->storeAs('public/assets/img/uploads/', $imageName);
+            $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            // Pindahkan file ke folder public/assets/img/uploads
+            $request->file('image')->move(public_path('assets/img/uploads'), $imageName);
         } else {
             return back()->withErrors(['image' => 'Gagal mengunggah gambar. Silakan coba lagi.']);
-        }
+        }        
 
         Payment::create([
             'username' => $validatedData['username'],

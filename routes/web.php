@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/search-user', [HomeController::class, 'searchUser'])->name('search.user');
@@ -26,9 +27,8 @@ Route::get('/auth/login', function () {
     return view('auth.login');
 });
 
-Route::get('/admin/', function () {
-    return view('admin.dashboard');
-});
+Route::get('/admin/', [DashboardController::class, 'index'])->name('index');
+Route::get('/admin/proses', [DashboardController::class, 'prosesKas'])->name('index.proses');
 
 Route::get('/admin/member', [MemberController::class, 'readMember'])->name('readMember');
 Route::get('/admin/member/{id}', [MemberController::class, 'getMember'])->name('getMember');

@@ -22,7 +22,8 @@
                     <p class="text-sm text-gray-500 mt-2">Klik QRIS untuk memperbesar</p>
                 </div>
 
-                <form method="post" action="{{ route('payment.proses') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('payment.proses') }}" enctype="multipart/form-data"
+                    id="form">
                     @csrf
                     <input type="hidden" name="username" value="{{ $users->username }}">
                     <input type="hidden" name="nim" value="{{ $users->nim }}">
@@ -76,7 +77,7 @@
                             class="mt-2 p-2 border border-gray-300 rounded-md w-full" required>
                     </div>
                     <div class="mt-6">
-                        <button type="submit"
+                        <button type="submit" id="confirmPayment"
                             class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Confirm Payment
                         </button>
@@ -92,6 +93,7 @@
         <span id="closeModal"
             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer text-2xl">&times;</span>
         <img src="https://brenpedia.com/storage/assets/img/uploads/admin/1725739526.jpg" alt="QRIS" class="w-full">
+        <b>A/N : EBREN TINAMBUNAN</b>
     </div>
 </div>
 
@@ -216,6 +218,12 @@
         document.getElementById('totalAmount').textContent = `Rp ${totalAmount.toLocaleString()}`;
         document.getElementById('amount').value = totalAmount;
     }
+
+    document.getElementById('form').addEventListener('submit', function(e) {
+        var submitButton = document.getElementById('confirmPayment');
+        submitButton.innerHTML = 'Processing...';
+        submitButton.disabled = true;
+    });
 </script>
 
 <x-footer></x-footer>

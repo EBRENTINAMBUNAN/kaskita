@@ -48,12 +48,12 @@
             </div>
         </a>
 
-        <a href="">
+        <a href="{{ route('index.proses') }}">
             <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-600">Proses Kas</h3>
-                        <p class="text-3xl font-bold text-yellow-600">10 permintaan</p>
+                        <p class="text-3xl font-bold text-yellow-600">{{ $prosesKas->count() }} permintaan</p>
                     </div>
                     <div class="bg-yellow-500 p-3 rounded-full">
                         <i class="fas fa-sync-alt text-white"></i>
