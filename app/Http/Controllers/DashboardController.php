@@ -35,13 +35,10 @@ class DashboardController extends Controller
     public function prosesKasMember(Request $request)
 {
     $username = $request->username;
-    $pekanList = explode(',', $request->pekan); 
+    $pekanList = array_map('trim', explode(',', $request->pekan)); // Trim spasi pekan
 
     // Mencari member berdasarkan username
     $member = Member::where('username', $username)->first();
-
-    // Memeriksa pembayaran untuk semua pekan yang diberikan
-    $payments = Payment::whereIn('pekan', $pekanList)->where('username', $username)->get(); 
 
     // Cek apakah member ditemukan
     if (!$member) {
@@ -49,41 +46,78 @@ class DashboardController extends Controller
         return response()->json(['error' => 'Member not found'], 404);
     }
 
-    // Loop melalui setiap pekan untuk melakukan pemeriksaan individu
-    foreach ($pekanList as $pekan) {
-        $pekanField = strtolower(trim($pekan)); 
+    // Memeriksa pembayaran untuk semua pekan yang diberikan
+    $payments = Payment::where('username', $username)->whereIn('pekan', $pekanList)->get();
 
-        // Memeriksa apakah kolom pekan ada di tabel members
+    $successfulPekans = [];
+    $failedPekans = [];
+
+    foreach ($pekanList as $pekan) {
+        $pekanField = strtolower(trim($pekan)); // Make sure it's lowercase for comparison
+
+        // Cek apakah kolom pekan ada di tabel members
         if (!Schema::hasColumn('members', $pekanField)) {
-            Log::error('Pekan field not found in members table: ' . $pekanField);
-            return response()->json(['error' => "Field {$pekanField} not found in members table"], 400);
+            Log::error("Pekan field not found in members table: {$pekanField}");
+            $failedPekans[] = $pekan;
+            continue; // Lanjutkan ke pekan berikutnya
         }
 
-        // Memeriksa apakah member sudah memiliki status untuk pekan tersebut
+        // Cek apakah member sudah memiliki status untuk pekan tersebut
         if (!$member->$pekanField) {
-            $member->$pekanField = true;
+            $member->$pekanField = true; // Update pekan field to true
             $member->save();
         }
 
-        // Mencari payment yang sesuai dengan pekan dan username
-        $payment = $payments->firstWhere('pekan', $pekan);
+        // Cari payment yang sesuai dengan pekan dan username
+        $payment = Payment::where('username', $username)
+                          ->where('pekan', 'LIKE', "%{$pekan}%") // Adjust for flexibility
+                          ->first();
 
-        // Jika tidak ditemukan pembayaran untuk pekan ini, catat dan kembalikan pesan error
+        // Jika payment tidak ditemukan
         if (!$payment) {
-            Log::error('Payment not found for username: ' . $username . ' and pekan: ' . $pekan);
-            return response()->json(['error' => "Payment not found for username: {$username} and pekan: {$pekan}"], 404);
+            Log::error("Payment not found for username: {$username} and pekan: {$pekan}");
+            $failedPekans[] = $pekan;
+            continue; // Lanjutkan ke pekan berikutnya
         }
 
-        // Update status pembayaran jika statusnya bukan 'success'
+        // Update status payment jika statusnya bukan 'success'
         if ($payment->status !== 'success') {
             $payment->status = 'success';
-            $payment->save();
+            $payment->save(); // Save the updated payment
         }
+
+        // Catat pekan yang berhasil diproses
+        $successfulPekans[] = $pekan;
     }
 
-    return response()->json(['message' => "Pekan(s) updated successfully: " . implode(', ', $pekanList)], 200);
+    // Response pekan sukses dan gagal
+    return response()->json([
+        'message' => "Pekan(s) updated successfully: " . implode(', ', $successfulPekans),
+        'failed_pekans' => $failedPekans
+    ], 200);
 }
 
+public function tolakProsesKasMember(Request $request)
+{
+    $username = $request->username;
+    $pekanList = $request->pekan;
 
+    // Ambil semua pembayaran yang sesuai dengan username, pekan, dan status pending
+    $payments = Payment::where('username', $username)
+                        ->whereIn('pekan', $pekanList)
+                        ->where('status', 'pending')
+                        ->get();
+
+    // Update status pembayaran yang ditemukan menjadi failed
+    Payment::where('username', $username)
+        ->whereIn('pekan', $pekanList)
+        ->update(['status' => 'failed']);
+
+    // Mengembalikan respons sukses
+    return response()->json([
+        'message' => 'All specified pekan(s) rejected successfully.',
+        'status' => 'success'
+    ], 200);
+}
 
 }
