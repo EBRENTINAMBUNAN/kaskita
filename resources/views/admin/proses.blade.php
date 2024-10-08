@@ -133,26 +133,94 @@
         </div>
     </div>
 
+    <!-- Modal Error -->
+    <div id="errorModal"
+        class="fixed inset-0 flex items-center justify-center z-100 opacity-0 invisible transition-opacity duration-300 ease-out bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+            <div class="flex justify-between items-center border-b border-gray-300 pb-2">
+                <h2 class="text-2xl font-bold text-red-600">Error</h2>
+                <button id="closeErrorModalBtn" class="text-gray-500 hover:text-gray-800 transition duration-200">
+                    &times;
+                </button>
+            </div>
+            <div class="mt-4">
+                <p id="errorMessage" class="text-red-500 text-lg"></p> <!-- Tempat untuk pesan error -->
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="closeErrorModal"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
 
 
     <script>
-        // Menambahkan event listener untuk tombol Terima dan Tolak
+        let modalData = {
+            username: '',
+            pekan: ''
+        };
+
         document.getElementById('acceptButton').addEventListener('click', function() {
-            // Tambahkan fungsionalitas untuk menerima pembayaran
-            console.log("Pembayaran diterima");
-            // Tutup modal setelah menerima
+            modalData.username = document.getElementById('modalUsername').textContent.trim();
+            modalData.pekan = document.getElementById('modalPekan').textContent.trim();
+
             closeModal();
-            // Tampilkan modal konfirmasi Terima
             openModal('modalTerima');
+
+            const confirmAcceptButton = document.getElementById('confirmAcceptButton');
+            confirmAcceptButton.removeEventListener('click', handleAccept);
+            confirmAcceptButton.addEventListener('click', handleAccept);
+
+            const cancelAcceptButton = document.getElementById('cancelAcceptButton');
+            cancelAcceptButton.removeEventListener('click', handleCancel);
+            cancelAcceptButton.addEventListener('click', handleCancel);
         });
 
+        function handleAccept() {
+            var submitButton = document.getElementById('confirmAcceptButton');
+            submitButton.innerHTML = 'Processing...';
+            submitButton.disabled = true;
+
+            fetch('/admin/proses-kas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        username: modalData.username,
+                        pekan: modalData.pekan
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            let errorMessage = Array.isArray(err.error) ? err.error.join(', ') : err.error ||
+                                'Unknown error';
+                            throw new Error(errorMessage);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    location.reload();
+                })
+                .catch((error) => {
+                    openErrorModal(`An error occurred: ${error.message}`);
+                });
+        }
+
+        // Fungsi untuk menangani klik tombol "Batal" pada modal konfirmasi
+        function handleCancel() {
+            closeModalTerima();
+        }
+
+        // Event untuk tombol "Tolak"
         document.getElementById('rejectButton').addEventListener('click', function() {
-            // Tambahkan fungsionalitas untuk menolak pembayaran
-            console.log("Pembayaran ditolak");
-            // Tutup modal setelah menolak
-            closeModal();
-            // Tampilkan modal konfirmasi Tolak
-            openModal('modalTolak');
+            closeModal(); // Tutup modal detail
+            openModal('modalTolak'); // Tampilkan modal konfirmasi Tolak
         });
 
         // Fungsi untuk menutup modal detail
@@ -160,6 +228,13 @@
             const detailModal = document.getElementById('detailModal');
             detailModal.classList.add('opacity-0', 'invisible');
             detailModal.classList.remove('opacity-100', 'visible');
+        }
+
+        // Fungsi untuk menutup modal konfirmasi "Terima"
+        function closeModalTerima() {
+            const modalTerima = document.getElementById('modalTerima');
+            modalTerima.classList.add('opacity-0', 'invisible');
+            modalTerima.classList.remove('opacity-100', 'visible');
         }
 
         // Fungsi untuk membuka modal konfirmasi (Terima atau Tolak)
@@ -180,18 +255,15 @@
             const modalImagePreview = document.getElementById('modalImagePreview');
 
             function openDetailModal(id, username, pekan, amount, image) {
-                // Menampilkan data di modal
                 modalUsername.textContent = username;
                 modalPekan.textContent = pekan;
                 modalAmount.textContent = formatRupiah(amount);
                 modalImagePreview.src = '/assets/img/uploads/' + image;
 
-                // Menampilkan modal detail
                 detailModal.classList.remove('opacity-0', 'invisible');
                 detailModal.classList.add('opacity-100', 'visible');
             }
 
-            // Menutup modal dengan tombol close atau footer
             document.querySelectorAll('#closeModalBtn, #closeModalBtnFooter').forEach(btn => {
                 btn.addEventListener('click', function() {
                     detailModal.classList.add('opacity-0', 'invisible');
@@ -199,16 +271,43 @@
                 });
             });
 
-            // Menyediakan fungsi global agar dapat dipanggil dari dalam HTML
             window.openDetailModal = openDetailModal;
         });
 
-        // Fungsi untuk memformat angka menjadi format Rupiah
         function formatRupiah(amount) {
-            // Ubah angka menjadi format dengan pemisah ribuan dan prefix 'Rp'
             return 'Rp ' + parseInt(amount).toLocaleString('id-ID');
         }
+
+        // Fungsi untuk membuka modal error
+        function openErrorModal(errorMessage) {
+            const errorModal = document.getElementById('errorModal');
+            const errorText = document.getElementById('errorMessage');
+
+            // Set pesan error
+            errorText.textContent = errorMessage;
+
+            // Tampilkan modal
+            errorModal.classList.remove('opacity-0', 'invisible');
+            errorModal.classList.add('opacity-100', 'visible');
+        }
+
+        // Fungsi untuk menutup modal error
+        function closeErrorModalFunction() {
+            const errorModal = document.getElementById('errorModal');
+            errorModal.classList.add('opacity-0', 'invisible');
+            errorModal.classList.remove('opacity-100', 'visible');
+        }
+
+        function reload() {
+            location.reload();
+        }
+
+        // Event listener untuk tombol close modal error
+        document.getElementById('closeErrorModalBtn').addEventListener('click', closeErrorModalFunction);
+        document.getElementById('closeErrorModal').addEventListener('click', reload);
     </script>
+
+
 
 
     <x-admin.footer></x-admin.footer>

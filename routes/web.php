@@ -27,8 +27,9 @@ Route::get('/auth/login', function () {
     return view('auth.login');
 });
 
-Route::get('/admin/', [DashboardController::class, 'index'])->name('index');
+Route::get('/admin/', [DashboardController::class, 'index'])->name('index.admin');
 Route::get('/admin/proses', [DashboardController::class, 'prosesKas'])->name('index.proses');
+Route::post('/admin/proses-kas', [DashboardController::class, 'prosesKasMember']);
 
 Route::get('/admin/member', [MemberController::class, 'readMember'])->name('readMember');
 Route::get('/admin/member/{id}', [MemberController::class, 'getMember'])->name('getMember');

@@ -74,7 +74,6 @@ class HomeController extends Controller
 
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            // Pindahkan file ke folder public/assets/img/uploads
             $request->file('image')->move(public_path('assets/img/uploads'), $imageName);
         } else {
             return back()->withErrors(['image' => 'Gagal mengunggah gambar. Silakan coba lagi.']);
