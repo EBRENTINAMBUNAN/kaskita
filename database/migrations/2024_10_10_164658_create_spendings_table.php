@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_historys', function (Blueprint $table) {
+        Schema::create('spendings', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('nim');
-            $table->string('type');
-            $table->string('pekan');
+            $table->text('deskripsi');
             $table->decimal('amount', 10, 2);
-            $table->string('image');
-            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_historys');
+        Schema::dropIfExists('spendings');
     }
 };

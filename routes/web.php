@@ -11,9 +11,7 @@ Route::get('/payment/{username}', [HomeController::class, 'bayarTagihan'])->name
 Route::post('/proses/payment/', [HomeController::class, 'prosesBayarTagihan'])->name('payment.proses');
 
 
-Route::get('/saving', function () {
-    return view('saving');
-});
+Route::get('/saving', [HomeController::class, 'indexSaving'])->name('index.saving');
 
 Route::get('/spending', function () {
     return view('spending');

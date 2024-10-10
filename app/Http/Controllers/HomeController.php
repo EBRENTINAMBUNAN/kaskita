@@ -91,4 +91,11 @@ class HomeController extends Controller
 
         return redirect()->route('index')->with('success', 'Pembayaran berhasil diajukan, dan sedang dalam proses.');
     }
+
+    // method untuk menampilkan riwayat saving
+    public function indexSaving()
+    {
+        $payments = Payment::query()->orderBy('id', 'desc')->get();
+        return view('saving', compact('payments'));
+    } 
 }

@@ -181,30 +181,32 @@ class DashboardController extends Controller
 
     // Method untuk menolak proses kas member
     public function tolakProsesKasMember(Request $request)
-{
-    $validatedData = $request->validate([
-        'username' => 'required|string',
-        'pekan' => 'required|string'
-    ]);
-
-    $payment = Payment::where('username', $validatedData['username'])
-                      ->where('pekan', $validatedData['pekan'])
-                      ->where('status', 'pending')
-                      ->first();
-
-    if ($payment) {
-        $payment->status = 'failed';
-        $payment->save();
-
-        return response()->json([
-            'result' => true,
-            'message' => 'Status pembayaran berhasil diubah menjadi failed.'
+    {
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'pekan' => 'required|string'
         ]);
-    } else {
-        return response()->json([
-            'result' => false,
-            'message' => 'Data pembayaran tidak ditemukan.'
-        ], 404);
+
+        $payment = Payment::where('username', $validatedData['username'])
+                        ->where('pekan', $validatedData['pekan'])
+                        ->where('status', 'pending')
+                        ->first();
+
+        if ($payment) {
+            $payment->status = 'failed';
+            $payment->save();
+
+            return response()->json([
+                'result' => true,
+                'message' => 'Status pembayaran berhasil diubah menjadi failed.'
+            ]);
+        } else {
+            return response()->json([
+                'result' => false,
+                'message' => 'Data pembayaran tidak ditemukan.'
+            ], 404);
+        }
     }
-}
+
+    // method untuk menampilkan data dari model spending ke dalam tabel
 }

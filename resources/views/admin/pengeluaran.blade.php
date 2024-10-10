@@ -11,27 +11,32 @@
     </div>
 
     <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
-        <table class="min-w-full bg-white">
-            <thead>
-                <tr class="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-600 uppercase text-sm leading-normal">
-                    <th class="py-3 px-6 text-left">Description</th>
-                    <th class="py-3 px-6 text-left">Category</th>
-                    <th class="py-3 px-6 text-center">Amount</th>
+        <table class="min-w-full table-auto border-collapse">
+            <thead class="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+                <tr>
                     <th class="py-3 px-6 text-center">Date</th>
+                    <th class="py-3 px-6 text-left">Description</th>
+                    <th class="py-3 px-6 text-center">Amount</th>
                     <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody class="text-gray-700 text-sm font-light">
                 <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                    <td class="py-3 px-6 text-left">Office Supplies</td>
-                    <td class="py-3 px-6 text-left">Office</td>
-                    <td class="py-3 px-6 text-center">$150.00</td>
                     <td class="py-3 px-6 text-center">2024-10-03</td>
+                    <td class="py-3 px-6 text-left">Office Supplies</td>
+                    <td class="py-3 px-6 text-center">$150.00</td>
                     <td class="py-3 px-6 text-center">
-                        <button onclick="openModal('editModal')"
-                            class="text-indigo-500 hover:text-indigo-600 mr-3">Edit</button>
-                        <button onclick="openModal('deleteModal')"
-                            class="text-red-500 hover:text-red-600">Delete</button>
+                        <div class="flex item-center justify-center space-x-2">
+                            <button onclick="openEditModal()"
+                                class="w-4 transform hover:text-purple-500 hover:scale-110">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="openDeleteModal()"
+                                class="w-4 transform hover:text-red-500 hover:scale-110">
+                                <i class="fas fa-trash"></i>
+                            </button>
+
+                        </div>
                     </td>
                 </tr>
             </tbody>
