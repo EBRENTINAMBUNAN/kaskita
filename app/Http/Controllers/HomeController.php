@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Models\Spending;
 
 class HomeController extends Controller
 {
@@ -97,5 +98,12 @@ class HomeController extends Controller
     {
         $payments = Payment::query()->orderBy('id', 'desc')->get();
         return view('saving', compact('payments'));
+    } 
+
+    // method untuk menampilkan riwayat spending
+    public function indexSpending()
+    {
+        $spendings = Spending::query()->orderBy('id', 'desc')->get();
+        return view('spending', compact('spendings'));
     } 
 }

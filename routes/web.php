@@ -12,10 +12,8 @@ Route::post('/proses/payment/', [HomeController::class, 'prosesBayarTagihan'])->
 
 
 Route::get('/saving', [HomeController::class, 'indexSaving'])->name('index.saving');
+Route::get('/spending', [HomeController::class, 'indexSpending'])->name('index.spending');
 
-Route::get('/spending', function () {
-    return view('spending');
-});
 
 Route::get('/search', function () {
     return view('search');
@@ -49,9 +47,13 @@ Route::get('/admin/tagihan', function () {
     return view('admin.tagihan');
 });
 
-Route::get('/admin/pengeluaran', function () {
-    return view('admin.pengeluaran');
-});
+Route::get('/admin/pengeluaran', [DashboardController::class, 'indexPengeluaran'])->name('index.pengeluaran');
+Route::post('/admin/pengeluaran/create', [DashboardController::class, 'createPengeluaran'])->name('create.pengeluaran');
+Route::get('/admin/pengeluaran/{id}', [DashboardController::class, 'showPengeluaran'])->name('show.pengeluaran');
+Route::put('/admin/pengeluaran/update/{id}', [DashboardController::class, 'updatePengeluaran'])->name('update.pengeluaran');
+Route::delete('/admin/pengeluaran/delete/{id}', [DashboardController::class, 'deletePengeluaran'])->name('delete.pengeluaran');
+
+
 Route::get('/admin/pengaturan', function () {
     return view('admin.pengaturan');
 });

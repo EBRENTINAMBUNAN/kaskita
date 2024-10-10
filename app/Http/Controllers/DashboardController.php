@@ -7,29 +7,51 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use App\Models\Member;
+use App\Models\Spending;
 
 class DashboardController extends Controller
 {
     public function index()
-    {
-        // method untuk menampilkan dashboard utama
-        $prosesKas = Payment::where('status', 'pending')
-                            ->orderBy('username', 'asc')
-                            ->get();
+{
+    // method untuk menampilkan dashboard utama
+    $prosesKas = Payment::where('status', 'pending')
+                        ->orderBy('username', 'asc')
+                        ->get();
 
-        $members = Member::all();
+    $members = Member::all();
 
-        $totalKas = 0;
-        foreach ($members as $member) {
-            for ($i = 1; $i <= 16; $i++) {
-                $field = "p" . $i;
-                if ($member->$field == 1) {
-                    $totalKas += 5000;
-                }
+    $totalKas = 0;
+    foreach ($members as $member) {
+        for ($i = 1; $i <= 16; $i++) {
+            $field = "p" . $i;
+            if ($member->$field == 1) {
+                $totalKas += 5000;
             }
         }
-        return view('admin.dashboard', compact('prosesKas', 'totalKas', 'members'));
     }
+
+    // Hitung total amount dari model Spending
+    $totalSpending = Spending::sum('amount');
+
+    // Hitung hasil kas (totalKas - totalSpending)
+    $hasilKas = $totalKas - $totalSpending;
+
+    $payments = Payment::where('status', 'success')->sum('amount');
+
+    $historys = Payment::query()
+                        ->orderBy('id', 'desc')
+                        ->take(3)
+                        ->get();
+
+    $hispends = Spending::query()
+                        ->orderBy('id', 'desc')
+                        ->take(3)
+                        ->get();
+
+    return view('admin.dashboard', compact('prosesKas', 'totalKas', 'members', 'totalSpending', 'hasilKas', 'payments', 
+'historys', 'hispends'));
+}
+
 
 
     // Method untuk menampilkan halaman proses kas manual
@@ -209,4 +231,56 @@ class DashboardController extends Controller
     }
 
     // method untuk menampilkan data dari model spending ke dalam tabel
+    public function indexPengeluaran()
+    {
+        $spendings = Spending::query()->orderBy('id', 'desc')->get();
+
+        return view('admin/pengeluaran', compact('spendings'));
+    }
+    
+    //method untuk insert data baru 
+    public function createpengeluaran(Request $request)
+    {
+        $validate = $request->validate([
+            'deskripsi' => 'required|string|max:255',  
+            'amount' => 'required|numeric',  
+        ]);
+
+        Spending::create([
+            'deskripsi' => $validate['deskripsi'],
+            'amount' => $validate['amount'],
+        ]);
+
+        return redirect()->route('index.pengeluaran')->with('success', 'Pengeluaran berhasil ditambahkan.');
+    }
+
+    //method untuk mencari data berdasarkan id yang dipilih 
+    public function showPengeluaran($id)
+    {
+        $spending = Spending::find($id);
+        return response()->json($spending);
+    }
+
+    //method untuk update data berdasarkan id yang dipilih 
+    public function updatePengeluaran(Request $request, $id)
+    {
+        $spending = Spending::find($id);
+        $spending->deskripsi = $request->input('deskripsi');
+        $spending->amount = $request->input('amount');
+        $spending->save();
+
+        return redirect()->back()->with('success', 'Spending updated successfully');
+    }
+
+    // method untuk menghapus data berdasarkan id yang dipilih
+    public function deletePengeluaran($id)
+{
+    $pengeluaran = Spending::findOrFail($id);
+    $pengeluaran->delete();
+
+    return redirect()->back()->with('success', 'Spending updated successfully');
+}
+
+
+
 }
