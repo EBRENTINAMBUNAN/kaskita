@@ -38,41 +38,35 @@
                 </button>
             </div>
             <div class="mt-6 space-y-6">
-                <!-- Username -->
                 <div class="bg-gray-50 p-4 rounded-lg shadow-lg border-l-4 border-blue-500">
                     <p class="text-gray-800 font-medium text-lg">
                         <strong class="block text-blue-600">Username:</strong>
                         <span id="modalUsername" class="uppercase block text-xl mt-1"></span>
                     </p>
                 </div>
-                <!-- Pekan -->
                 <div class="bg-gray-50 p-4 rounded-lg shadow-lg border-l-4 border-green-500">
                     <p class="text-gray-800 font-medium text-lg">
                         <strong class="block text-green-600">Pekan:</strong>
                         <span id="modalPekan" class="block text-xl mt-1"></span>
                     </p>
                 </div>
-                <!-- Amount -->
                 <div class="bg-gray-50 p-4 rounded-lg shadow-lg border-l-4 border-yellow-500">
                     <p class="text-gray-800 font-medium text-lg">
                         <strong class="block text-yellow-600">Amount:</strong>
                         <span id="modalAmount" class="block text-xl mt-1"></span>
                     </p>
                 </div>
-                <!-- Image Preview -->
                 <div class="rounded-lg overflow-hidden">
                     <img id="modalImagePreview" src="" alt="Bukti Pembayaran"
                         class="w-full h-auto rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105">
                 </div>
             </div>
             <div class="mt-6 flex justify-end space-x-4">
-                <!-- Tombol Terima -->
                 <button id="acceptButton"
                     class="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-green-300">
                     <i class="fas fa-check-circle mr-2"></i> Terima
                 </button>
 
-                <!-- Tombol Tolak -->
                 <button id="rejectButton"
                     class="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-red-300">
                     <i class="fas fa-times-circle mr-2"></i> Tolak
@@ -81,7 +75,6 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Terima -->
     <div id="modalTerima"
         class="fixed inset-0 flex items-center justify-center z-90 opacity-0 invisible transition-opacity duration-300 ease-out bg-black bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
@@ -104,7 +97,6 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Tolak -->
     <div id="modalTolak"
         class="fixed inset-0 flex items-center justify-center z-90 opacity-0 invisible transition-opacity duration-300 ease-out bg-black bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
@@ -127,7 +119,6 @@
         </div>
     </div>
 
-    <!-- Modal Error -->
     <div id="errorModal"
         class="fixed inset-0 flex items-center justify-center z-100 opacity-0 invisible transition-opacity duration-300 ease-out bg-black bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
@@ -138,7 +129,7 @@
                 </button>
             </div>
             <div class="mt-4">
-                <p id="errorMessage" class="text-red-500 text-lg"></p> <!-- Tempat untuk pesan error -->
+                <p id="errorMessage" class="text-red-500 text-lg"></p>
             </div>
             <div class="mt-4 flex justify-end">
                 <button id="closeErrorModal"
@@ -150,9 +141,6 @@
     </div>
 
 
-    <script src="{{ asset('assets/js/admin.proses.js') }}"></script>
-
-
-
+    <script src="{{ asset('assets/js/admin_proses.js') }}"></script>
 
     <x-admin.footer></x-admin.footer>

@@ -1,23 +1,19 @@
-// Objek untuk data modal
 const modalData = {
     username: '',
     pekan: ''
 };
 
-// Fungsi untuk mengatur event listener tombol
 function setButtonListener(buttonId, callback) {
     const button = document.getElementById(buttonId);
     button.removeEventListener('click', callback);
     button.addEventListener('click', callback);
 }
 
-// Fungsi untuk mengupdate data modal dari konten HTML
 function updateModalData() {
     modalData.username = document.getElementById('modalUsername').textContent.trim();
     modalData.pekan = document.getElementById('modalPekan').textContent.trim();
 }
 
-// Fungsi untuk memproses permintaan penerimaan
 function handleAccept() {
     disableButton('confirmAcceptButton', true, 'Processing...');
     postData('/admin/proses-kas', modalData)
@@ -25,14 +21,12 @@ function handleAccept() {
         .catch(error => openErrorModal(`An error occurred: ${error.message}`));
 }
 
-// Fungsi untuk menonaktifkan tombol saat proses berjalan
 function disableButton(buttonId, disable, text) {
     const button = document.getElementById(buttonId);
     button.disabled = disable;
     button.innerHTML = text;
 }
 
-// Fungsi untuk mengirim data ke server
 function postData(url, data) {
     return fetch(url, {
         method: 'POST',
@@ -51,7 +45,6 @@ function postData(url, data) {
     );
 }
 
-// Fungsi untuk menampilkan/menghilangkan modal
 function toggleModal(modalId, isOpen) {
     const modal = document.getElementById(modalId);
     modal.classList.toggle('opacity-0', !isOpen);
@@ -60,12 +53,10 @@ function toggleModal(modalId, isOpen) {
     modal.classList.toggle('visible', isOpen);
 }
 
-// Fungsi untuk memformat angka menjadi Rupiah
 function formatRupiah(amount) {
     return 'Rp ' + parseInt(amount).toLocaleString('id-ID');
 }
 
-// Fungsi untuk membuka modal detail
 function openDetailModal(id, username, pekan, amount, image) {
     document.getElementById('modalUsername').textContent = username;
     document.getElementById('modalPekan').textContent = pekan;
@@ -75,18 +66,15 @@ function openDetailModal(id, username, pekan, amount, image) {
     toggleModal('detailModal', true);
 }
 
-// Fungsi untuk membuka modal error
 function openErrorModal(errorMessage) {
     document.getElementById('errorMessage').textContent = errorMessage;
     toggleModal('errorModal', true);
 }
 
-// Fungsi untuk menutup modal error
 function closeErrorModalFunction() {
     toggleModal('errorModal', false);
 }
 
-// Event listeners
 document.getElementById('acceptButton').addEventListener('click', () => {
     updateModalData();
     toggleModal('detailModal', false);
@@ -113,7 +101,6 @@ document.getElementById('closeErrorModal').addEventListener('click', () => locat
 
 window.openDetailModal = openDetailModal;
 
-// Event listener untuk tombol "Lanjutkan" di modal Tolak
 document.getElementById('confirmRejectButton').addEventListener('click', () => {
     updateModalData(); 
     disableButton('confirmRejectButton', true, 'Processing...');

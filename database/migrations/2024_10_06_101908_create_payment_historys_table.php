@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('nim');
+            $table->string('type');
             $table->string('pekan');
             $table->string('amount');
             $table->string('image');

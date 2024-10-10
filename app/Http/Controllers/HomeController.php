@@ -82,6 +82,7 @@ class HomeController extends Controller
         Payment::create([
             'username' => $validatedData['username'],
             'nim' => $validatedData['nim'],
+            'type' => 'online',
             'pekan' => $validatedData['pekan'],
             'amount' => $validatedData['amount'],
             'image' => $imageName,

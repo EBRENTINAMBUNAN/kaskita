@@ -29,6 +29,13 @@ Route::get('/auth/login', function () {
 
 Route::get('/admin/', [DashboardController::class, 'index'])->name('index.admin');
 Route::get('/admin/proses', [DashboardController::class, 'prosesKas'])->name('index.proses');
+Route::get('/admin/proses/manual', [DashboardController::class, 'indexManualKas'])->name('index.manual.proses');
+Route::get('/get-pekan', [DashboardController::class, 'showData'])->name('get.pekan');
+Route::post('/update-pekan', [DashboardController::class, 'updatePekan'])->name('update.pekan');
+
+
+
+
 Route::post('/admin/proses-kas', [DashboardController::class, 'prosesKasMember']);
 Route::post('/admin/tolak/proses-kas', [DashboardController::class, 'tolakProsesKasMember']);
 

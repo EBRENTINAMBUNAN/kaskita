@@ -9,7 +9,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-sm font-semibold text-gray-600">Total Kas</h3>
-                    <p class="text-3xl font-bold text-green-600">Rp 50,000,000</p>
+                    <p class="text-3xl font-bold text-green-600">Rp <br> {{ number_format($totalKas, 0, ',', '.') }}</p>
                 </div>
                 <div class="bg-green-500 p-3 rounded-full">
                     <i class="fas fa-wallet text-white"></i>
@@ -18,12 +18,12 @@
             <p class="text-xs text-gray-500 mt-2">total uang kas saat ini</p>
         </div>
 
-        <a href="/admin/">
+        <a href="{{ route('index.manual.proses') }}">
             <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-600">Kas Masuk</h3>
-                        <p class="text-3xl font-bold text-blue-600">Rp 25,000,000</p>
+                        <p class="text-3xl font-bold text-blue-600">{{ $members->count() }} <br> member</p>
                     </div>
                     <div class="bg-blue-500 p-3 rounded-full">
                         <i class="fas fa-arrow-down text-white"></i>
