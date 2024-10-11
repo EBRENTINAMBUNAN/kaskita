@@ -86,10 +86,11 @@
             <div class="relative w-full max-w-xl">
                 <form id="searchForm">
                     @csrf
-                    <input type="text" id="searchInput" placeholder="Masukkan nomor induk mahasiswa..."
+                    <input type="number" id="searchInput" placeholder="Masukkan nomor induk mahasiswa..."
                         value="{{ request('search') }}"
                         class="w-full bg-gray-100 border border-transparent focus:border-transparent shadow-lg focus:shadow-xl text-gray-700 rounded-full py-4 px-6 pr-14 focus:outline-none focus:ring-4 focus:ring-blue-600 transition-all duration-500"
-                        required>
+                        autocomplete="off" required inputmode="numeric" pattern="[0-9]*">
+
 
                     <button type="submit"
                         class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-800 p-3 rounded-full shadow-lg transition-all duration-300">
@@ -115,28 +116,33 @@
                 <div class="flex justify-center mb-4">
                     <i class="fas fa-wallet text-4xl text-blue-500"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp 75.000</h3>
-                <p class="text-gray-600 mt-2 text-center">Total Pemasukan</p>
+                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp
+                    {{ number_format($hasilkas, 0, ',', '.') }}
+                </h3>
+                <p class="text-gray-600 mt-2 text-center">Total Kas tersedia</p>
             </div>
             <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="flex justify-center mb-4">
                     <i class="fas fa-chart-line text-4xl text-red-500"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp 25.000</h3>
+                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp
+                    {{ number_format($totalSpending, 0, ',', '.') }}</h3>
                 <p class="text-gray-600 mt-2 text-center"> Total Pengeluaran</p>
             </div>
             <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="flex justify-center mb-4">
                     <i class="fas fa-credit-card text-4xl text-yellow-500"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp 50.000</h3>
+                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp
+                    {{ number_format($online, 0, ',', '.') }}</h3>
                 <p class="text-gray-600 mt-2 text-center">Total Pembayaran Online</p>
             </div>
             <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="flex justify-center mb-4">
                     <i class="fas fa-money-bill-wave text-4xl text-green-500"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp 50.000</h3>
+                <h3 class="text-xl font-semibold text-gray-800 text-center">Rp
+                    {{ number_format($offline, 0, ',', '.') }}</h3>
                 <p class="text-gray-600 mt-2 text-center">Total Pembayaran Offline</p>
             </div>
         </div>

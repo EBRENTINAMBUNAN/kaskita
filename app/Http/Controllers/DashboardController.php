@@ -29,11 +29,9 @@ class DashboardController extends Controller
             }
         }
     }
-
-    // Hitung total amount dari model Spending
+    
     $totalSpending = Spending::sum('amount');
 
-    // Hitung hasil kas (totalKas - totalSpending)
     $hasilKas = $totalKas - $totalSpending;
 
     $payments = Payment::where('status', 'success')->sum('amount');
@@ -274,12 +272,12 @@ class DashboardController extends Controller
 
     // method untuk menghapus data berdasarkan id yang dipilih
     public function deletePengeluaran($id)
-{
-    $pengeluaran = Spending::findOrFail($id);
-    $pengeluaran->delete();
+    {
+        $pengeluaran = Spending::findOrFail($id);
+        $pengeluaran->delete();
 
-    return redirect()->back()->with('success', 'Spending updated successfully');
-}
+        return redirect()->back()->with('success', 'Spending updated successfully');
+    }
 
 
 

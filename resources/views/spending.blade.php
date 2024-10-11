@@ -3,7 +3,7 @@
 <x-sidebar></x-sidebar>
 
 <div class="container mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Cash Spending Overview</h2>
+    <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Riwayat Pengeluaran</h2>
     @foreach ($spendings as $item)
         <div
             class="bg-white shadow-xl rounded-xl border border-gray-200 p-6 mb-6 transition-transform transform hover:scale-105 hover:bg-red-50 hover:shadow-2xl">
@@ -31,4 +31,7 @@
         </div>
     @endforeach
 </div>
-<x-footer></x-footer>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+
+</html>

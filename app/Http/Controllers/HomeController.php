@@ -10,9 +10,30 @@ use App\Models\Spending;
 class HomeController extends Controller
 {
     // index
-    public function index() {
-        return view('home');
+    public function index() 
+    {
+        $members = Member::all();
+        $totalkas = 0; 
+
+        foreach ($members as $member) {
+            for ($i = 1; $i <= 16; $i++) {
+                $field = "p" . $i;
+                if ($member->$field == 1) {
+                    $totalkas += 5000; 
+                }
+            }
+        }
+
+        $totalSpending = Spending::sum('amount');
+
+        $hasilkas = $totalkas - $totalSpending;
+
+        $online = Payment::where('status', 'success')->where('type', 'online')->sum('amount');
+        $offline = Payment::where('status', 'success')->where('type', 'offline')->sum('amount');
+
+        return view('home', compact('totalkas', 'hasilkas', 'totalSpending', 'online', 'offline'));
     }
+
 
     // search user
     public function searchUser(Request $request)
@@ -106,4 +127,35 @@ class HomeController extends Controller
         $spendings = Spending::query()->orderBy('id', 'desc')->get();
         return view('spending', compact('spendings'));
     } 
+
+    // method untuk menampilkan halaman search
+    public function indexSearch() 
+    {
+        return view('search');
+    }
+
+    // cari data berdasarkan nim
+    public function searchNim(Request $request)
+{
+    $nim = $request->input('nim');
+    $payments = Payment::where('nim', $nim)
+        ->where('status', 'success') 
+        ->get();
+
+    if ($payments->isNotEmpty()) { 
+        return response()->json([
+            'success' => true,
+            'data' => $payments, 
+        ]);
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data not found',
+        ]);
+    }
+}
+
+
+
+
 }

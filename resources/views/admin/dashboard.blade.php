@@ -1,7 +1,6 @@
 <x-admin.header>Dashboard</x-admin.header>
 <x-admin.sidebar></x-admin.sidebar>
 
-{{-- content --}}
 <div class="container mx-auto px-6 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
 
@@ -83,22 +82,39 @@
                                 $pekanArray = explode(', ', $item->pekan);
 
                                 $pekanArray = array_map(function ($pekan) {
-                                    return intval(str_replace('P', '', $pekan));
+                                    return trim($pekan);
                                 }, $pekanArray);
 
-                                sort($pekanArray);
+                                if (count($pekanArray) > 1) {
+                                    $minPekan =
+                                        'P' .
+                                        min(
+                                            array_map(function ($pekan) {
+                                                return intval(str_replace('P', '', $pekan));
+                                            }, $pekanArray),
+                                        );
 
-                                $minPekan = 'P' . min($pekanArray);
-                                $maxPekan = 'P' . max($pekanArray);
+                                    $maxPekan =
+                                        'P' .
+                                        max(
+                                            array_map(function ($pekan) {
+                                                return intval(str_replace('P', '', $pekan));
+                                            }, $pekanArray),
+                                        );
+                                } else {
+                                    $minPekan = $pekanArray[0];
+                                    $maxPekan = null;
+                                }
                             @endphp
 
                             <p class="text-sm font-semibold">
-                                @if (count($pekanArray) > 1)
+                                @if ($maxPekan)
                                     {{ $minPekan . ' - ' . $maxPekan }}
                                 @else
                                     {{ $minPekan }}
                                 @endif
                             </p>
+
 
 
                             <p class="text-sm font-semibold text-green-600">+ Rp
@@ -135,6 +151,5 @@
     </div>
 </div>
 </div>
-{{-- end content --}}
 
 <x-admin.footer></x-admin.footer>

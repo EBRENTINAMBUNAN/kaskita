@@ -14,10 +14,9 @@ Route::post('/proses/payment/', [HomeController::class, 'prosesBayarTagihan'])->
 Route::get('/saving', [HomeController::class, 'indexSaving'])->name('index.saving');
 Route::get('/spending', [HomeController::class, 'indexSpending'])->name('index.spending');
 
+Route::get('/search', [HomeController::class, 'indexSearch'])->name('index.search');
+Route::get('/search-nim', [HomeController::class, 'searchNim'])->name('search.nim');
 
-Route::get('/search', function () {
-    return view('search');
-});
 
 Route::get('/auth/login', function () {
     return view('auth.login');

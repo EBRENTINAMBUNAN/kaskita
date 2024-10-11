@@ -1,13 +1,11 @@
 <x-header>SAVINGPAGE</x-header>
-
 <x-sidebar></x-sidebar>
 
-{{-- content --}}
 <div class="container mx-auto px-4 py-8">
-    <h2 class="text-3xl font-semibold text-center text-gray-900 mb-2">Your Savings at a Glance</h2>
-    <p class="text-center text-gray-700 mb-4">Selamat datang! Di halaman ini, Kamu dapat melihat riwayat pembayaran
-        terbaru
-        Anda dengan mudah dan terorganisir.</p>
+    <h2 class="text-3xl font-semibold text-center text-gray-900 mb-2">Riwayat Pemasukan</h2>
+    <p class="text-center text-gray-700 mb-4">Kamu dapat melihat seluruh riwayat
+        pembayaran
+        terbaru secara real time.</p>
 
     @foreach ($payments as $item)
         <div
@@ -46,6 +44,7 @@
     @endforeach
 </div>
 
-{{-- end content --}}
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
 
-<x-footer></x-footer>
+</html>
