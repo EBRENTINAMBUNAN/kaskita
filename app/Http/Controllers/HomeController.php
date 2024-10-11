@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Spending;
+use App\Models\Qris;
 
 class HomeController extends Controller
 {
@@ -59,11 +60,17 @@ class HomeController extends Controller
     {
         $users = Member::where('username', $username)->first();
 
+        $qris = Qris::query()->first();
+
+        if($qris == null) {
+            return false;
+        }
+
         if (!isset($users)) {
             return "Data tidak ditemukan";
         } else {
             session(['username' => $username]);
-            return view('payment', compact('users'));
+            return view('payment', compact('users', 'qris'));
         }
     }
 

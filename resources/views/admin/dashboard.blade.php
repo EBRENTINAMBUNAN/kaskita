@@ -129,7 +129,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h3 class="text-lg font-semibold mb-4">Riwayat Pengeluaran Terbaru</h3>
             <ul>
                 @foreach ($hispends as $item)

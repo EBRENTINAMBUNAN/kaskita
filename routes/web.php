@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\QrisController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/search-user', [HomeController::class, 'searchUser'])->name('search.user');
@@ -42,9 +43,10 @@ Route::delete('/admin/member/delete/{id}', [MemberController::class, 'deleteMemb
 
 
 
-Route::get('/admin/tagihan', function () {
-    return view('admin.tagihan');
-});
+Route::get('/admin/qris', [QrisController::class, 'indexQris'])->name('index.qris');
+Route::post('/admin/qris/create', [QrisController::class, 'createQris'])->name('create.qris');
+Route::delete('/admin/qris/{id}/delete-image', [QRISController::class, 'deleteImage'])->name('delete.qris.image');
+
 
 Route::get('/admin/pengeluaran', [DashboardController::class, 'indexPengeluaran'])->name('index.pengeluaran');
 Route::post('/admin/pengeluaran/create', [DashboardController::class, 'createPengeluaran'])->name('create.pengeluaran');

@@ -40,15 +40,15 @@
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="/admin/member"
+            <a href="{{ route('readMember') }}"
                 class="flex items-center space-x-4 text-xl {{ request()->is('admin/member') ? 'bg-blue-700' : 'text-gray-300' }} hover:bg-blue-700 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all duration-300 ease-in-out">
                 <i class="fas fa-user"></i>
                 <span>member</span>
             </a>
-            <a href="/admin/tagihan"
-                class="flex items-center space-x-4 text-xl {{ request()->is('admin/tagihan') ? 'bg-blue-700' : 'text-gray-300' }} hover:bg-blue-700 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all duration-300 ease-in-out">
-                <i class="fas fa-file-invoice"></i>
-                <span>Tagihan</span>
+            <a href="{{ route('index.qris') }}"
+                class="flex items-center space-x-4 text-xl {{ request()->is('admin/qris') ? 'bg-blue-700' : 'text-gray-300' }} hover:bg-blue-700 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all duration-300 ease-in-out">
+                <i class="fas fa-qrcode"></i>
+                <span>QRIS</span>
             </a>
             <a href="/admin/pengaturan"
                 class="flex items-center space-x-4 text-xl {{ request()->is('admin/pengaturan') ? 'bg-blue-700' : 'text-gray-300' }} hover:bg-blue-700 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all duration-300 ease-in-out">
@@ -84,15 +84,15 @@
                 <i class="fas fa-home mr-3 text-lg"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="/admin/member"
+            <a href="{{ route('readMember') }}"
                 class="flex items-center px-6 py-4 {{ request()->is('admin/member') ? 'bg-blue-600' : '' }} hover:bg-blue-500 rounded-lg transition ease-in-out duration-300">
                 <i class="fas fa-user mr-3 text-lg"></i>
                 <span>member</span>
             </a>
-            <a href="/admin/tagihan"
-                class="flex items-center px-6 py-4 {{ request()->is('admin/tagihan') ? 'bg-blue-600' : '' }} hover:bg-blue-500 rounded-lg transition ease-in-out duration-300">
-                <i class="fas fa-file-invoice mr-3 text-lg"></i>
-                <span>Tagihan</span>
+            <a href="{{ route('index.qris') }}"
+                class="flex items-center px-6 py-4 {{ request()->is('admin/qris') ? 'bg-blue-600' : '' }} hover:bg-blue-500 rounded-lg transition ease-in-out duration-300">
+                <i class="fas fa-qrcode mr-3 font-bold text-lg"></i>
+                <span>QRIS</span>
             </a>
             <a href="/admin/pengaturan"
                 class="flex items-center px-6 py-4 {{ request()->is('admin/pengaturan') ? 'bg-blue-600' : '' }} hover:bg-blue-500 rounded-lg transition ease-in-out duration-300">

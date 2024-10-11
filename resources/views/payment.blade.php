@@ -17,8 +17,8 @@
                 </div>
 
                 <div class="mt-6 text-center">
-                    <img id="qrisImage" src="https://brenpedia.com/storage/assets/img/uploads/admin/1725739526.jpg"
-                        alt="QRIS" class="mx-auto h-32 w-32 object-cover cursor-pointer">
+                    <img id="qrisImage" src="{{ asset('assets/img/uploads/admin/' . $qris->image) }}" alt="QRIS"
+                        class="mx-auto h-32 w-32 object-cover cursor-pointer">
                     <p class="text-sm text-gray-500 mt-2">Klik QRIS untuk memperbesar</p>
                 </div>
 
@@ -92,8 +92,8 @@
     <div class="bg-white p-4 rounded-lg max-w-lg relative flex flex-col items-center">
         <span id="closeModal"
             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer text-2xl">&times;</span>
-        <img src="https://brenpedia.com/storage/assets/img/uploads/admin/1725739526.jpg" alt="QRIS" class="w-full">
-        <b>A/N : EBREN TINAMBUNAN</b>
+        <img src="{{ asset('assets/img/uploads/admin/' . $qris->image) }}" alt="QRIS" class="w-full mb-4">
+        <b>A/N : {{ $qris->name }}</b>
     </div>
 </div>
 
