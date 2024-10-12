@@ -8,18 +8,38 @@
             <h2 class="text-4xl font-extrabold text-center text-gray-800 mb-6">{{ config('app.name') }}</h2>
             <p class="text-center text-sm text-gray-600 mb-6">Masuk ke akun admin Anda</p>
 
-            <form class="mt-8 space-y-6">
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <ul class="text-red-500">
+                        @foreach ($errors->all() as $error)
+                            <li>Error: {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                    role="alert">
+                    <span class="block sm:inline">Success: {{ session('success') }}</span>
+                </div>
+            @endif
+
+
+            <form class="mt-8 space-y-6" action="{{ route('proses.login') }}" method="post">
+                @csrf
                 <!-- Username Input -->
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
-                        <label class="sr-only" for="email">Email</label>
-                        <input id="email" name="email" type="text" autocomplete="email" required
+                        <label class="sr-only" for="name">Username</label>
+                        <input id="name" name="name" type="text" autocomplete="name" required
                             class="mb-4 appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                            placeholder="Email" />
+                            placeholder="Username" />
                     </div>
 
                     <!-- Password Input with Show/Hide Toggle -->
-                    <div class="relative mt-4">
+                    <div class="relative
+                            mt-4">
                         <label class="sr-only" for="password">Password</label>
                         <input id="password" name="password" type="password" autocomplete="current-password" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
@@ -46,15 +66,15 @@
                 <!-- Remember Me and Forgot Password -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember_me" name="remember_me" type="checkbox"
+                        <input id="remember" name="remember" type="checkbox"
                             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-                        <label for="remember_me" class="ml-2 block text-sm text-gray-600">
+                        <label for="remember" class="ml-2 block text-sm text-gray-600">
                             Ingat saya
                         </label>
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                        <a href="#" class="font-medium text-blue-600 hover:text-blue-500" onclick="openModal()">
                             Lupa password?
                         </a>
                     </div>
@@ -105,6 +125,29 @@
 </div>
 {{-- end content --}}
 
+
+<!-- Modal -->
+<div id="forgotPasswordModal"
+    class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 invisible opacity-0 transition-opacity duration-300">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Lupa Password</h2>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800">&times;</button>
+        </div>
+        <form action="{{ route('send.reset.password') }}" method="POST">
+            @csrf
+            <input type="text" name="wa" id="wa" required
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Masukan Nomor Whatsapp">
+
+            <div class="mt-4 flex justify-end">
+                <button type="submit" class="bg-blue-600 w-full text-white px-4 py-2 rounded-md hover:bg-blue-700">S
+                    U B M I T</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script defer>
     function togglePasswordVisibility() {
         const passwordField = document.getElementById("password");
@@ -113,18 +156,19 @@
 
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            eyeOpenIcon.style.display = "none"; // Hide the open eye
-            eyeClosedIcon.style.display = "block"; // Show the closed eye
+            eyeOpenIcon.style.display = "none";
+            eyeClosedIcon.style.display = "block";
         } else {
             passwordField.type = "password";
-            eyeOpenIcon.style.display = "block"; // Show the open eye
-            eyeClosedIcon.style.display = "none"; // Hide the closed eye
+            eyeOpenIcon.style.display = "block";
+            eyeClosedIcon.style.display = "none";
         }
     }
 </script>
 
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="{{ asset('assets/js/auth_login.js') }}"></script>
 </body>
 
 </html>

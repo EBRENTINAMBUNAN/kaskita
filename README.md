@@ -1,5 +1,6 @@
 # KASKITA V 1.0
 
+### berhasil buat autentikasi login
 ### berhasil buat halaman qris
 ### berhasil buat halaman search,pengeluaran
 ### berhasil buat proses manual

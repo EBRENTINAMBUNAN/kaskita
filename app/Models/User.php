@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,8 +17,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'wa',   
         'password',
+        'reset_token', 
+        'token_expires_at', 
     ];
 
     /**
@@ -33,15 +34,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'wa_verified_at' => 'datetime',   
+        'password' => 'hashed',
+    ];
 }
