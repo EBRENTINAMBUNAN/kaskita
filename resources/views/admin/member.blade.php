@@ -291,11 +291,6 @@
                         required />
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        required />
-                </div>
-                <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Whatsapp</label>
                     <input type="tel" name="wa" class="w-full px-3 py-2 border border-gray-300 rounded-md"
                         required />
@@ -320,17 +315,12 @@
                 @method('PUT')
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" name="username"
+                    <input type="text" name="username" readonly
                         class="w-full px-3 py-2 border border-gray-300 rounded-md uppercase" />
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">NIM</label>
-                    <input type="text" name="nim"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md" />
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email"
+                    <input type="text" name="nim" readonly
                         class="w-full px-3 py-2 border border-gray-300 rounded-md" />
                 </div>
                 <div class="mb-4">
@@ -415,7 +405,6 @@
             .then(data => {
                 document.querySelector('#editModal input[name="username"]').value = data.username;
                 document.querySelector('#editModal input[name="nim"]').value = data.nim;
-                document.querySelector('#editModal input[name="email"]').value = data.email;
                 document.querySelector('#editModal input[name="wa"]').value = data.wa;
                 document.querySelector('#editModal form').action = `/admin/member/update/${id}`;
                 openModal('editModal');

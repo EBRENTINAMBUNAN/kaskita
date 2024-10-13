@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QrisController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PengaturanController;
 
 // Rute tanpa login
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -57,11 +58,13 @@ Route::middleware('AuthCheck')->group(function () {
     Route::put('/admin/pengeluaran/update/{id}', [DashboardController::class, 'updatePengeluaran'])->name('update.pengeluaran');
     Route::delete('/admin/pengeluaran/delete/{id}', [DashboardController::class, 'deletePengeluaran'])->name('delete.pengeluaran');
 
-    Route::get('/admin/pengaturan', function () {
-        return view('admin.pengaturan');
-    });
+    Route::get('/admin/pengaturan', [PengaturanController::class, 'indexPengaturan'])->name('index.pengaturan');
+    Route::post('/admin/pengaturan/change-profile', [PengaturanController::class, 'changeProfile'])->name('change.profile');
+    Route::post('/admin/pengaturan/change-password', [PengaturanController::class, 'changePassword'])->name('change.password');
+
+    // Rute logout
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// Rute logout
-Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+
 

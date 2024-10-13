@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('nim');
-            $table->string('email');
             $table->string('wa');
             $table->boolean('p1')->default(false);
             $table->boolean('p2')->default(false);

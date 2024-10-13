@@ -13,14 +13,12 @@ class MemberController extends Controller
         $request->validate([
             'username' => 'required|string|max:50',
             'nim' => 'required|string|max:20',
-            'email' => 'required|string|max:50',
             'wa' => 'required|string|max:13',
         ]);
 
         Member::create([
             'username' => $request->username,
             'nim' => $request->nim,
-            'email' => $request->email,
             'wa' => $request->wa,
         ]);
 
@@ -55,14 +53,12 @@ class MemberController extends Controller
         $request->validate([
             'username' => 'required|string|max:50',
             'nim' => 'required|string|max:20',
-            'email' => 'required|string|max:50',
             'wa' => 'required|string|max:13',
         ]);
 
         $user = Member::findOrFail($id);
         $user->username = $request->username;
         $user->nim = $request->nim;
-        $user->email = $request->email;
         $user->wa = $request->wa;
         $user->save();
 

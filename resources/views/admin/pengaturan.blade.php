@@ -1,64 +1,115 @@
 <x-admin.header>Settings Page</x-admin.header>
 <x-admin.sidebar></x-admin.sidebar>
 
-{{-- konten --}}
-<div class="container mx-auto px-6 py-8">
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Account Settings</h2>
+<!-- Container -->
+<div class="container mx-auto px-6 py-8 flex space-x-6">
+    <div class="w-1/4 bg-white rounded-lg shadow-md p-4">
+        <ul id="menu" class="space-y-3">
+            <li>
+                <button data-target="profile"
+                    class="tab-button flex items-center lg:justify-start justify-center text-left w-full p-3 rounded-md hover:bg-blue-100 transition">
+                    <i class="fas fa-user lg:mr-2 text-blue-600"></i>
+                    <span class="hidden lg:inline menu-text">Profile</span>
+                </button>
+            </li>
+            <li>
+                <button data-target="password"
+                    class="tab-button flex items-center lg:justify-start justify-center text-left w-full p-3 rounded-md hover:bg-blue-100 transition">
+                    <i class="fas fa-lock lg:mr-2 text-blue-600"></i>
+                    <span class="hidden lg:inline menu-text">Ganti Password</span>
+                </button>
+            </li>
+        </ul>
+    </div>
 
-        <!-- Profile Section -->
-        <div class="border-b pb-4 mb-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Profile Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Name Field -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <div class="w-full bg-white p-8 rounded-lg shadow-lg transition">
+        <form action="{{ route('change.profile') }}" method="post">
+            @csrf
+            <div id="profile" class="tab-content">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Profile Information</h3>
+
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        role="alert">
+                        <ul class="text-red-500">
+                            @foreach ($errors->all() as $error)
+                                <li>Error: {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                        role="alert">
+                        <span class="block sm:inline">Success: {{ session('success') }}</span>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="username" name="username" value="{{ $users->name }}" readonly
+                            class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="wa" class="block text-sm font-medium text-gray-700">Whatsapp</label>
+                        <input type="text" id="wa" name="wa" value="{{ $users->wa }}"
+                            class="mt-2
+                        block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500
+                        focus:border-blue-500 sm:text-sm"
+                            placeholder="masukan nomor whatsapp">
+                    </div>
                 </div>
-                <!-- Email Field -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div class="mt-8">
+                    <button type="submit"
+                        class="bg-blue-500 text-white text-lg font-bold
+                     w-full p-3 rounded-full hover:bg-blue-700">Save</button>
                 </div>
             </div>
-        </div>
+        </form>
 
-        <!-- Password Section -->
-        <div class="border-b pb-4 mb-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Change Password</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Current Password Field -->
+        <form action="{{ route('change.password') }}" method="post">
+            @csrf
+            <div id="password" class="tab-content hidden">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Change Password</h3>
+                <input type="hidden" name="username" value="{{ $users->name }}">
                 <div>
-                    <label for="current-password" class="block text-sm font-medium text-gray-700">Current
-                        Password</label>
-                    <input type="password" id="current-password" name="current-password"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password :</label>
+                    <input type="password" id="password" name="password"
+                        class="mt-2
+                    block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500
+                    focus:border-blue-500 sm:text-sm"
+                        placeholder="masukan password saat ini">
                 </div>
-                <!-- New Password Field -->
-                <div>
-                    <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
-                    <input type="password" id="new-password" name="new-password"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password :</label>
+                        <input type="password" id="newPassword" name="password1" placeholder="masukan password baru"
+                            class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm
+                            Password</label>
+                        <input type="password" id="confirmPassword" name="password2"
+                            class="mt-2 block w-full px-4 py-3
+                        border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                        sm:text-sm"
+                            placeholder="masukan kembali password baru">
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button type="submit"
+                        class="bg-blue-500 text-white text-lg font-bold
+                     w-full p-3 rounded-full hover:bg-blue-700">Save</button>
                 </div>
             </div>
-            <!-- Confirm Password Field -->
-            <div class="mt-6">
-                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <!-- Save Changes Button -->
-        <div class="mt-6 flex justify-end">
-            <button
-                class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save
-                Changes</button>
-        </div>
+        </form>
     </div>
 </div>
-{{-- end konten --}}
+
+<script src="{{ asset('assets/js/admin_pengaturan.js') }}"></script>
 
 <x-admin.footer></x-admin.footer>

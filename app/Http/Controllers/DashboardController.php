@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use App\Models\Payment;
 use App\Models\Member;
 use App\Models\Spending;
@@ -104,6 +107,7 @@ class DashboardController extends Controller
         if ($member) 
         {
             $nim = $member->nim;
+            $type = 'offline';
 
             $pekanColumn = $request->pekan;
 
@@ -114,12 +118,29 @@ class DashboardController extends Controller
                 Payment::create([
                     'username' => $member->username,
                     'nim' => $nim,
-                    'type' => 'offline',
+                    'type' => $type,
                     'pekan' => $pekanColumn,
                     'amount' => '5000',
                     'status' => 'success',
                     'image' => 'cash.jpg',
                 ]);
+
+                $pesan = "Selamat, pembayaran telah lunas.\n" .
+                         "============================\n\n" .
+                         "Username: $member->username\n" .
+                         "NIM: $nim\n" .
+                         "type: $type\n" .
+                         "Pekan: $request->pekan\n\n" .
+                         "Kamu bisa cek status pembayaran lewat link berikut:\n" .
+                         route('index.search');
+
+                $response = Http::withHeaders([
+                    'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+                ])->asForm()->post('https://api.fonnte.com/send', [
+                    'target' => $member->wa,
+                    'message' => $pesan,
+                ]);
+
 
                 return response()->json([
                     'message' => 'Data berhasil diperbarui dan pembayaran dicatat'
@@ -154,10 +175,13 @@ class DashboardController extends Controller
             return response()->json(['error' => 'Member not found'], 404);
         }
 
+        $nim = $member->nim;
+        $type = 'online';
+
         $payments = Payment::where('username', $username)
-                           ->whereIn('pekan', $pekanList)
-                           ->where('status', 'pending')
-                           ->get();
+                        ->whereIn('pekan', $pekanList)
+                        ->where('status', 'pending')
+                        ->get();
 
         $successfulPekans = [];
         $failedPekans = [];
@@ -176,9 +200,9 @@ class DashboardController extends Controller
             }
 
             $payment = Payment::where('username', $username)
-                              ->where('pekan', 'LIKE', "%$pekan%")
-                              ->where('status', 'pending')
-                              ->first();
+                            ->where('pekan', 'LIKE', "%$pekan%")
+                            ->where('status', 'pending')
+                            ->first();
 
             if (!$payment) {
                 $failedPekans[] = $pekan;
@@ -193,11 +217,32 @@ class DashboardController extends Controller
             $successfulPekans[] = $pekan;
         }
 
+        $pesan = "Selamat, pembayaran telah lunas.\n" .
+                "============================\n\n" .
+                "Username: $member->username\n" .
+                "NIM: $nim\n" .
+                "Type: $type\n" .
+                "Pekan: $request->pekan\n\n" .
+                "Kamu bisa cek status pembayaran lewat link berikut:\n" .
+                route('index.search'); 
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+            ])->asForm()->post('https://api.fonnte.com/send', [
+                'target' => $member->wa,
+                'message' => $pesan,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Gagal mengirim pesan ke ' . $member->username . ': ' . $e->getMessage());
+        }
+
         return response()->json([
             'message' => 'Pekan(s) updated successfully: ' . implode(', ', $successfulPekans),
             'failed_pekans' => $failedPekans
         ], 200);
     }
+
 
     // Method untuk menolak proses kas member
     public function tolakProsesKasMember(Request $request)
@@ -216,6 +261,38 @@ class DashboardController extends Controller
             $payment->status = 'failed';
             $payment->save();
 
+            $member = Member::where('username', $validatedData['username'])->first();
+            
+            if (!$member) {
+                return response()->json([
+                    'result' => false,
+                    'message' => 'Member tidak ditemukan.'
+                ], 404);
+            }
+
+            $nim = $member->nim;
+            $type = 'online';
+
+            $pesan = "Hallo, $member->username\n" .
+                    "============================\n\n" .
+                    "Pembayaran kamu gagal nih... \n" .
+                    "Type: $type\n" .
+                    "Pekan: $request->pekan\n\n" .
+                    "Silahkan hubungi admin untuk info lebih lanjut.\n";
+
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+                ])->asForm()->post('https://api.fonnte.com/send', [
+                    'target' => $member->wa,
+                    'message' => $pesan,
+                ]);
+
+            } catch (\Exception $e) {
+                Log::error('Gagal mengirim pesan ke ' . $member->username . ': ' . $e->getMessage());
+            }
+
+            // Respon sukses
             return response()->json([
                 'result' => true,
                 'message' => 'Status pembayaran berhasil diubah menjadi failed.'
@@ -227,6 +304,7 @@ class DashboardController extends Controller
             ], 404);
         }
     }
+
 
     // method untuk menampilkan data dari model spending ke dalam tabel
     public function indexPengeluaran()
