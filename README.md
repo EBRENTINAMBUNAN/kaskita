@@ -1,4 +1,7 @@
 # Sistem Manajemen Uang Kas
+
+![QRIS Support](public/assets/css/style.jpeg)
+
 ## Laravel 11 Project
 
 Ini adalah proyek berbasis Laravel 11 yang berfungsi untuk mengelola uang kas secara efisien. Fitur utama meliputi:
