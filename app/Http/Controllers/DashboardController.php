@@ -228,7 +228,7 @@ class DashboardController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+                'Authorization' => '', //isi dengan code fonte mu 
             ])->asForm()->post('https://api.fonnte.com/send', [
                 'target' => $member->wa,
                 'message' => $pesan,
@@ -282,7 +282,7 @@ class DashboardController extends Controller
 
             try {
                 $response = Http::withHeaders([
-                    'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+                    'Authorization' => '', //isi dengan code fonte mu 
                 ])->asForm()->post('https://api.fonnte.com/send', [
                     'target' => $member->wa,
                     'message' => $pesan,
