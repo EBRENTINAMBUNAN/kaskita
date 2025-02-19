@@ -1,6 +1,7 @@
 # Sistem Manajemen Uang Kas
 
 ![QRIS Support](public/assets/css/style.jpeg)
+Jangan lupa sawer :)
 
 ## Laravel 11 Project
 
