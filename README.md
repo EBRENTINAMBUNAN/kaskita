@@ -89,6 +89,8 @@ Aplikasi akan berjalan di `http://localhost:8000` secara default.
 
 3. **Notifikasi WhatsApp**
    - Sistem akan mengirimkan notifikasi otomatis ke nomor WhatsApp member saat status pembayaran diperbarui
+   - jangan lupa isi code fonnte mu di DashboardController atau 
+   jika kamu belum ada silahkan kunjungi website (https:://fonnte.com)
 
 ## Pengujian
 Jalankan pengujian unit atau fitur aplikasi dengan perintah:

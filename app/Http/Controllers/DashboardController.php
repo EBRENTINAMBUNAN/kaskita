@@ -135,7 +135,7 @@ class DashboardController extends Controller
                          route('index.search');
 
                 $response = Http::withHeaders([
-                    'Authorization' => 'mbynff#JsZs_ig7vAXc-', 
+                    'Authorization' => '', // isi dengan code fonte mu
                 ])->asForm()->post('https://api.fonnte.com/send', [
                     'target' => $member->wa,
                     'message' => $pesan,
