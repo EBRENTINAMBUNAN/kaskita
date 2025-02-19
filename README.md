@@ -92,6 +92,17 @@ Aplikasi akan berjalan di `http://localhost:8000` secara default.
    - jangan lupa isi code fonnte mu di DashboardController atau 
    jika kamu belum ada silahkan kunjungi website (https:://fonnte.com)
 
+4. **Login Admin**
+   - masuk dengan menggunakan default
+   username : admin
+   password : admin123
+
+5. **Metode Pembayaran**
+   - upload metode pembayaran dengan hanya 
+   metode Qris 
+   - pergi ke menu Qris
+
+
 ## Pengujian
 Jalankan pengujian unit atau fitur aplikasi dengan perintah:
 ```bash
