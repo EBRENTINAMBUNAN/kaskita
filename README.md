@@ -1,6 +1,6 @@
 
 ```markdown
-# KASKITA.MY.ID
+# Sistem Manajemen Uang Kas
 # Laravel 11 Project
 
 Ini adalah proyek berbasis Laravel 11. Di dalam proyek ini, terdapat berbagai fitur seperti pengelolaan member, sistem pembayaran pekanan, pengiriman notifikasi via WhatsApp, dan lain-lain.
@@ -18,7 +18,10 @@ Sebelum memulai instalasi, pastikan Anda telah menginstal dan mengonfigurasi hal
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/username/repository.git
+   git clone https://github.com/EBRENTINAMBUNAN/kaskita.git
+   ```
+
+   ```bash
    cd repository
    ```
 
@@ -86,17 +89,6 @@ Sebelum memulai instalasi, pastikan Anda telah menginstal dan mengonfigurasi hal
 3. **Notifikasi WhatsApp**
    - Aplikasi ini dilengkapi fitur pengiriman notifikasi otomatis ke nomor WhatsApp member ketika status pembayaran diperbarui.
 
-### Menggunakan API
-Anda juga dapat menggunakan beberapa endpoint API untuk integrasi eksternal:
-
-- **Proses Pembayaran Member**:
-  - Endpoint: `POST /api/process-payment`
-  - Parameter: `username`, `pekan`
-
-- **Tolak Pembayaran**:
-  - Endpoint: `POST /api/reject-payment`
-  - Parameter: `username`, `pekan`
-
 ## Pengujian
 
 Untuk menjalankan pengujian unit atau fitur pada aplikasi, gunakan perintah berikut:
@@ -133,5 +125,3 @@ Jika Anda ingin berkontribusi pada proyek ini, silakan fork repository ini dan b
 
 **Dibuat dengan ❤️ menggunakan Laravel 11.**
 ```
-
-Anda dapat langsung menyalin seluruh isi ini ke file `README.md` Anda.

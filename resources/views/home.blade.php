@@ -5,7 +5,14 @@
     <div class="container mx-auto px-6">
         <div x-data="{
             currentSlide: 0,
-            slides: ['{{ asset('assets/img/5.jpg') }}', '{{ asset('assets/img/2.jpg') }}', '{{ asset('assets/img/3.jpg') }}', '{{ asset('assets/img/4.jpg') }}', '{{ asset('assets/img/1.jpg') }}'],
+            slides: [
+             '{{ asset('assets/img/1.png') }}', 
+             '{{ asset('assets/img/2.png') }}', 
+             '{{ asset('assets/img/3.png') }}', 
+             '{{ asset('assets/img/4.png') }}', 
+             '{{ asset('assets/img/5.png') }}',
+             '{{ asset('assets/img/6.png') }}',
+             '{{ asset('assets/img/7.png') }}'],
             autoSlide() {
                 setInterval(() => {
                     this.nextSlide();
