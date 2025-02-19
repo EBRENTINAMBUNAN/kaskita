@@ -9,14 +9,16 @@ Ini adalah proyek berbasis Laravel 11. Di dalam proyek ini, terdapat berbagai fi
 
 Sebelum memulai instalasi, pastikan Anda telah menginstal dan mengonfigurasi hal-hal berikut di sistem Anda:
 
-- **PHP** >= 8.1
-- **Composer**
-- **MySQL** atau **PostgreSQL** (untuk database)
-- **Node.js** & **NPM** (untuk asset frontend)
+- PHP >= 8.1
+- Composer
+- MySQL (untuk database)
+- Node.js & NPM (untuk asset frontend)
 
 ## Langkah Instalasi
 
-1. **Clone Repository**
+1. Clone Repository
+   ```
+   
    ```bash
    git clone https://github.com/EBRENTINAMBUNAN/kaskita.git
    ```
